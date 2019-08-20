@@ -1,0 +1,435 @@
+@import url("https://fonts.googleapis.com/css?family=Hind:400,500,600,700&display=swap&subset=devanagari,latin-ext");
+@import "carousel.scss";
+
+* {
+  box-sizing: border-box;
+}
+.body,
+h1,
+h2,
+h3,
+a,
+p {
+  font-family: "Hind", sans-serif;
+  letter-spacing: 1px;
+}
+h1,
+h2 {
+  letter-spacing: 1.95px;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+  letter-spacing: 1.1px;
+}
+span,
+p {
+  color: #707070;
+  font-weight: 500;
+}
+input[type="submit"] {
+  border: none;
+  background: #000;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 5px;
+  padding: 3px 12px;
+}
+label {
+}
+.hr {
+  width: 100%;
+  height: 25px;
+  margin-top: 25px;
+  border-top: 1px solid #000;
+}
+
+header {
+  z-index: 999;
+  width: 100%;
+  padding: 0px 20px;
+  position: sticky;
+  background: #fff;
+  top: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  .branding {
+    width: 200px;
+  }
+  nav {
+    width: calc(100% - 250px);
+    margin-right: 50px;
+  }
+  ul {
+    display: flex;
+    justify-content: flex-end;
+    li {
+      margin-left: 2rem;
+      a {
+        font-weight: 600;
+        font-size: 22px;
+        &:hover {
+          border-top: #000 1px solid;
+          border-bottom: #000 1px solid;
+        }
+      }
+    }
+  }
+}
+
+.social-media {
+  width: 90px;
+  ul {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    text-align: center;
+    display: grid;
+    align-items: center;
+  }
+  a {
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    font-weight: 500;
+  }
+}
+
+.main {
+  display: flex;
+  flex-flow: row wrap;
+  > .carousel {
+    width: calc(100% - 90px);
+    height: 500px;
+  }
+  > .placement {
+    width: 100%;
+    margin: 3rem 10%;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    > div {
+      width: 45%;
+      max-width: 440px;
+      h3 {
+        font-weight: 600;
+        font-size: 18px;
+        text-transform: uppercase;
+      }
+    }
+  }
+  .hotels-info {
+    margin: 0 3rem;
+    h2,
+    h3 {
+      text-transform: uppercase;
+    }
+    p {
+      margin: -15px 0 35px;
+    }
+  }
+  .roomlist {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    .hotel {
+      min-width: 380px;
+      width: 30%;
+      height: 360px;
+      // border: 1px solid #000;
+      margin-bottom: 15px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      &:hover {
+        .bg {
+          height: 110%;
+        }
+        .info {
+          height: 75px;
+          opacity: 0.8;
+          span.more {
+            align-self: flex-end;
+          }
+          p {
+            padding-top: 5px;
+            transition: opacity 0.8s;
+            opacity: 1;
+          }
+        }
+      }
+      .bg {
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: center;
+        transition: all 0.8s;
+      }
+      .info {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        width: 100%;
+        background: #fff;
+        height: 50px;
+        transition: height 0.3s;
+        // transition-delay: 0.8s;
+        h3 {
+          width: calc(100% - 70px);
+          margin: 10px 0;
+        }
+        .more {
+          width: 70px;
+          text-transform: uppercase;
+          align-self: center;
+          font-weight: bold;
+          svg {
+            opacity: 0.7;
+            margin-left: 5px;
+          }
+        }
+        p {
+          padding-left: 15px;
+          opacity: 0;
+          .price {
+            font-weight: bold;
+            font-size: larger;
+          }
+        }
+      }
+    }
+  }
+}
+footer {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: baseline;
+  background: #eaeaea;
+  padding: 40px 0;
+  .branding {
+    min-width: 100px;
+    width: 15%;
+    align-self: end;
+    padding-left: 5%;
+  }
+  .info {
+    min-width: 30%;
+    width: 420px;
+    font-size: 15px;
+    li {
+      margin-bottom: 18px;
+    }
+    svg {
+      margin-right: 8px;
+    }
+  }
+  .links {
+    width: 20%;
+    font-size: 20px;
+    font-weight: 500;
+    li {
+      transition: all 0.5s;
+      &:hover {
+        opacity: 0.3;
+      }
+    }
+  }
+  .socital-media-icons {
+    width: 25%;
+    ul {
+      display: inline-flex;
+      text-align: center;
+      li {
+        cursor: pointer;
+        margin-right: 15px;
+        background: #000;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        transition: all 0.5s;
+        &:hover {
+          opacity: 0.6;
+        }
+        svg {
+          padding-top: 7px;
+          color: #eaeaea;
+        }
+      }
+    }
+  }
+  p {
+    padding: 10px 30px;
+    width: 100%;
+    color: #000;
+    text-align: right;
+    font-size: 15px;
+    font-weight: 500;
+  }
+}
+
+.room-photos {
+  width: 100%;
+  height: 60vh;
+  border: 1px solid red;
+  position: relative;
+  .photo {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: center;
+    &:not(.active) {
+      width: 20%;
+      height: 15vh;
+      bottom: 20px;
+      right: 20px;
+      position: absolute;
+      cursor: pointer;
+    }
+    &.active {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.room-main {
+  width: 100%;
+  min-height: 800px;
+  padding: 20px 5%;
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  .room-info {
+    width: 60%;
+    .price {
+      margin-top: 40px;
+      text-align: right;
+      span {
+        font-weight: 600;
+        font-size: 20px;
+        color: #000;
+        margin-left: 50px;
+      }
+    }
+  }
+  .short-description {
+    display: flex;
+    flex-flow: row wrap;
+    letter-spacing: 1.17px;
+    color: #707070;
+    > div {
+      width: 50%;
+      line-height: 1.5rem;
+    }
+  }
+  .amenities ul {
+    display: flex;
+    flex-flow: row wrap;
+    li {
+      margin: 5px 0;
+      width: 25%;
+      min-width: 150px;
+      svg {
+        width: 40px;
+        padding-right: 10px;
+      }
+    }
+  }
+  .booknow {
+    width: 30%;
+    max-height: 850px;
+    position: absolute;
+    right: 5%;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 20px 50px;
+    h2 {
+      text-align: center;
+    }
+    .checkinout {
+      display: flex;
+      justify-content: space-between;
+      > div {
+        width: 45%;
+      }
+    }
+    .datepicker {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    position: relative;
+    > div {
+      width: 100%;
+      &:last-child {
+        margin-top: 15px;
+        text-align: right;
+      }
+    }
+  }
+}
+
+label {
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 2px solid #000;
+  font-size: 1rem;
+  &:focus {
+    outline: none;
+  }
+}
+input[type="submit"]:focus {
+  outline: none;
+}
+
+.Selectable
+  .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #eaeaea !important;
+  color: #000;
+}
+.Selectable .DayPicker-Day {
+  border-radius: 0 !important;
+}
+.Selectable .DayPicker-Day--today {
+  background-color: #aaaaaa !important;
+  color: #fff;
+}
+.Selectable .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+  background: #4b4b4b !important;
+  color: #fff;
+}
+.Selectable .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+  background: #4b4b4b !important;
+  color: #fff;
+}
+.Selectable .DayPicker-Day:hover {
+  background-color: #eaeaea !important;
+  color: #000;
+}
+.Selectable .DayPicker-Day:focus {
+  outline: none;
+}
