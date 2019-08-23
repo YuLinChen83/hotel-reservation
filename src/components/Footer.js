@@ -45,9 +45,9 @@ or_hotel@gmail.com
     </div>
     <div className="socital-media-icons">
       <ul>
-        <li><FontAwesomeIcon icon={faFacebookF} size="lg" /></li>
-        <li><FontAwesomeIcon icon={faTwitter} size="lg" /></li>
-        <li><FontAwesomeIcon icon={faInstagram} size="lg" /></li>
+        <li><FontAwesomeIcon icon={faFacebookF} size="2x" /></li>
+        <li><FontAwesomeIcon icon={faTwitter} size="2x" /></li>
+        <li><FontAwesomeIcon icon={faInstagram} size="2x" /></li>
       </ul>
     </div>
     <p>Copyright © 2019 :OR All Rights Reserved.</p>

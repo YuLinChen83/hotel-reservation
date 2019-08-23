@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import history from 'historyConfig';
-import useGetApi from 'utils/fetchHooks';
+import { useGetApi } from 'utils/fetchHooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faMapMarkerAlt, faBus } from '@fortawesome/free-solid-svg-icons';
 

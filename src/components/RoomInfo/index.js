@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import useGetApi from 'utils/fetchHooks';
+import moment from 'moment';
+import { useGetApi, usePostApi } from 'utils/fetchHooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faWifi, faConciergeBell, faTemperatureLow, faWind, faUtensils, faBaby, faMountain, faCocktail, faSmoking, faPhone, faCouch, faDog, faTv,
@@ -22,6 +23,10 @@ const mapAmenities = {
   'Pet-Friendly': { icon: faDog, text: '寵物攜帶' },
 };
 
+const mapText = {
+  name: '預約者姓名', tel: '聯絡電話', from: '入住日期', to: '退房日期',
+};
+
 const RoomlInfo = ({ match }) => {
   const [{ data, isLoading, isError }, setFetchUrl] = useGetApi(
     `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${match.params.id}`,
@@ -32,6 +37,13 @@ const RoomlInfo = ({ match }) => {
       booking: [],
     },
   );
+  const [{
+    data: postResult, isLoading: isPostLoading, isError: isPostError, errMsg,
+  }, postReserveRoom] = usePostApi(
+    `https://challenge.thef2e.com/api/thef2e2019/stage6/room/${match.params.id}`,
+    {},
+    {},
+  );
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
   const [bookForm, setBookForm] = useState({
     name: '',
@@ -39,6 +51,12 @@ const RoomlInfo = ({ match }) => {
     rooms: 1,
     from: undefined,
     to: undefined,
+  });
+  const [validator, setValidator] = useState({
+    name: '',
+    tel: '',
+    from: '',
+    to: '',
   });
 
   useEffect(() => {
@@ -48,7 +66,25 @@ const RoomlInfo = ({ match }) => {
   const handleDayClick = (day) => {
     const { from, to } = DateUtils.addDayToRange(day, { from: bookForm.from, to: bookForm.to });
     setBookForm({ ...bookForm, from, to });
+    setValidator({ ...validator, from: '', to: '' });
     console.log(from, to);
+  };
+
+  const handleBlur = (inputName) => {
+    if (!bookForm[inputName]) {
+      setValidator({ ...validator, [inputName]: `請輸入${mapText[inputName]}` });
+    } else setValidator({ ...validator, [inputName]: '' });
+  };
+
+  const checkInput = (inputNames, validator) => {
+    let result = true;
+    inputNames.forEach((name) => {
+      if (!bookForm[name]) {
+        if (result) result = false;
+        validator[name] = `請輸入${mapText[name]}`;
+      }
+    });
+    return [result, validator];
   };
 
   return (
@@ -91,24 +127,86 @@ const RoomlInfo = ({ match }) => {
             </ul>
           </div>
         </div>
+        {/* <div className="booknow">
+          <h3>{postResult.success ? '預定成功' : '預定失敗'}</h3>
+          <div>
+            {
+              postResult.success ? (
+                <>
+                  <p>您已預定完成，詳細內容將傳送簡訊至您的手機。</p>
+                  <span>Name</span>
+                  {postResult.booking[0].name}
+                  <br />
+                  <span>Tel.</span>
+                  {postResult.booking[0].tel}
+                  <br />
+                  <span>Rooms</span>
+                  {bookForm.rooms}
+                  <br />
+                  <span>Date</span>
+                  {postResult.booking.map((item) => item.date).join(',')}
+                  <br />
+                </>
+              ) : errMsg
+            }
+          </div>
+        </div> */}
         <div className="booknow">
           <h2>BOOK NOW</h2>
           <form onSubmit={(e) => {
             e.preventDefault();
-            console.log('submit!');
+            const validateFields = { ...validator };
+            const [result, checkedValidator] = checkInput(['name', 'tel', 'from', 'to'], validateFields);
+            if (!result) {
+              console.log(checkedValidator);
+              setValidator(checkedValidator);
+              return;
+            }
+            postReserveRoom({
+              name: bookForm.name, tel: bookForm.tel, date: [moment(bookForm.from).format('YYYY-MM-DD'), moment(bookForm.to).format('YYYY-MM-DD')],
+            });
           }}
           >
             <div>
               <label htmlFor="name">
               name
-                <input id="name" type="text" name="name" value={bookForm.name} placeholder="請輸入預約者姓名" onChange={(e) => setBookForm({ ...bookForm, name: e.target.value })} />
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  value={bookForm.name}
+                  placeholder="請輸入預約者姓名"
+                  onChange={(e) => setBookForm({ ...bookForm, name: e.target.value })}
+                  onBlur={() => handleBlur('name')}
+                />
               </label>
+              {validator.name && (
+              <div className="warning">
+                <span>
+                  {`* ${validator.name}`}
+                </span>
+              </div>
+              )}
             </div>
             <div>
               <label htmlFor="tel">
               tel.
-                <input type="text" name="tel" value={bookForm.tel} placeholder="請輸入聯絡電話" onChange={(e) => setBookForm({ ...bookForm, tel: e.target.value })} />
+                <input
+                  type="text"
+                  name="tel"
+                  value={bookForm.tel}
+                  placeholder="請輸入聯絡電話"
+                  onChange={(e) => setBookForm({ ...bookForm, tel: e.target.value })}
+                  onBlur={() => handleBlur('tel')}
+                />
               </label>
+              {validator.tel && (
+                <div className="warning">
+                  <span>
+                    {`* ${validator.tel}`}
+                  </span>
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="rooms">
@@ -120,14 +218,38 @@ const RoomlInfo = ({ match }) => {
               <div>
                 <label htmlFor="checkin">
                   check in
-                  <input disabled type="text" name="checkin" value={bookForm.from ? bookForm.from.toLocaleDateString() : ''} onChange={(e) => setBookForm({ ...bookForm, from: e.target.value })} />
+                  <input
+                    disabled
+                    type="text"
+                    name="checkin"
+                    value={bookForm.from ? bookForm.from.toLocaleDateString() : ''}
+                  />
                 </label>
+                {validator.from && (
+                  <div className="warning">
+                    <span>
+                      {`* ${validator.from}`}
+                    </span>
+                  </div>
+                )}
               </div>
               <div>
                 <label htmlFor="checkout">
                   check out
-                  <input disabled type="text" name="checkout" value={bookForm.to ? bookForm.to.toLocaleDateString() : ''} onChange={(e) => setBookForm({ ...bookForm, to: e.target.value })} />
+                  <input
+                    disabled
+                    type="text"
+                    name="checkout"
+                    value={bookForm.to ? bookForm.to.toLocaleDateString() : ''}
+                  />
                 </label>
+                {validator.to && (
+                  <div className="warning">
+                    <span>
+                      {`* ${validator.to}`}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="datepicker">
@@ -145,7 +267,6 @@ const RoomlInfo = ({ match }) => {
           </form>
         </div>
       </div>
-
     </div>
   );
 };

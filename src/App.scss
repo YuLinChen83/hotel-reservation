@@ -39,6 +39,11 @@ input[type="submit"] {
   font-size: 18px;
   border-radius: 5px;
   padding: 3px 12px;
+  &:hover {
+    background: #fff;
+    color: #000;
+    border: 1px solid #000;
+  }
 }
 label {
 }
@@ -255,8 +260,8 @@ footer {
         cursor: pointer;
         margin-right: 15px;
         background: #000;
-        width: 35px;
-        height: 35px;
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
         transition: all 0.5s;
         &:hover {
@@ -282,7 +287,6 @@ footer {
 .room-photos {
   width: 100%;
   height: 60vh;
-  border: 1px solid red;
   position: relative;
   .photo {
     background-repeat: no-repeat;
@@ -310,7 +314,8 @@ footer {
   flex-flow: row wrap;
   position: relative;
   .room-info {
-    width: 60%;
+    width: calc(95% - 360px);
+    min-width: 450px;
     .price {
       margin-top: 40px;
       text-align: right;
@@ -347,9 +352,9 @@ footer {
   }
   .booknow {
     width: 30%;
+    min-width: 360px;
     max-height: 850px;
-    position: absolute;
-    right: 5%;
+    margin-left: 5%;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
     padding: 20px 50px;
     h2 {
@@ -432,4 +437,13 @@ input[type="submit"]:focus {
 }
 .Selectable .DayPicker-Day:focus {
   outline: none;
+}
+
+.warning {
+  text-align: right;
+  span {
+    font-weight: 200;
+    font-size: smaller;
+    color: brown;
+  }
 }
